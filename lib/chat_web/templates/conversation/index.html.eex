@@ -1,0 +1,19 @@
+<div class="main">
+  <h3>Web Chat</h3>
+
+  <section class="messages">
+  </section>
+  
+  <section class="data-input">
+    <div class="input-groub mb-3">
+      <input type="text" class="form-control" placeholder="your name..." />
+    </div>
+  
+    <div class="input-group">
+      <textarea class="form-control" rows="10" cols="4" placeholder="your message..."></textarea>
+    </div>
+
+    <button id="send-button" class="btn btn-primary send-button" phx-click="send-message">Send</button>
+  </section>
+  
+</div>

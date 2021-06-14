@@ -1,0 +1,6 @@
+# Show all routes of application
+mix phx.routes
+
+# Generate easily ecto.schema
+mix phx.gen.context
+
