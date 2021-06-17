@@ -7,9 +7,12 @@ defmodule ChatWeb.ChatChannel do
   end
 
   @impl true
-  def handle_in("new_message", payload, socket) do
-    IO.puts("new_message")
-    IO.inspect(payload)
+  def handle_in(
+        "new_message",
+        %{"body" => %{"usermessage" => user_message, "username" => username}},
+        socket
+      ) do
+    broadcast(socket, "new_message", %{id: 1, context: "Deu bom man"})
     {:noreply, socket}
   end
 end
