@@ -9,7 +9,7 @@ defmodule ChatWeb.ChatChannel do
 
   @impl true
   def handle_in("started_connection", _payload, socket) do
-    push(socket, "started_connection_messages", %{history: ConversationAgent.get_all()})
+    push(socket, "started_connection", %{history: ConversationAgent.get_all()})
     {:noreply, socket}
   end
 

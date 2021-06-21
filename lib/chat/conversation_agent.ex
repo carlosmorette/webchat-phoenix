@@ -3,7 +3,7 @@ defmodule Chat.ConversationAgent do
 
   @default_conversation [
     %{
-      author: "Morette",
+      author: "carlos morette",
       message: "Hello World!"
     }
   ]

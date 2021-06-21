@@ -6,7 +6,7 @@
   
   <section class="data-input">
     <div class="input-groub mb-3">
-      <input id="username" type="text" class="form-control" placeholder="your name..." />
+      <input id="author" type="text" class="form-control" placeholder="your name..." />
     </div>
   
     <div class="input-group">
