@@ -10,7 +10,7 @@
     </div>
   
     <div class="input-group">
-      <textarea id="user-message" class="form-control" rows="10" cols="4" placeholder="your message..."></textarea>
+      <textarea id="message" class="form-control" rows="10" cols="4" placeholder="your message..."></textarea>
     </div>
 
     <button id="send-button" class="btn btn-primary send-button" phx-click="send-message">Send</button>

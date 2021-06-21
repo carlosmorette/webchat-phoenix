@@ -16,6 +16,7 @@ h3 {
 	border: 1px solid black;
 	padding: 5% 5%;
 	margin: 5% 5%;
+	min-height: 300px
 }
 
 .data-input {

@@ -2,39 +2,53 @@
 
 import { Socket } from "phoenix"
 
-// TODO1: To create for validation
-
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
 socket.connect()
 
 let channel = socket.channel("chat:lobby", {})
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("ok", () => {
+    // solve this!!
+    console.log("Connected client...")
+    channel.on("joined", resp => {
+      console.log(resp)
+    })
+  })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 const button = document.getElementById("send-button")
 const userName = document.getElementById("username")
-const userMessage = document.getElementById("user-message")
+const message = document.getElementById("message")
 const messagesContainer = document.getElementById("container-messages")
 
 button.addEventListener('click', () => {
+
+  if(!userName.value || !message.value) {
+    alert("Fill all fields")
+    return
+  }
+
   const payload = {
     username: userName.value,
-    usermessage: userMessage.value
+    message: message.value
   }
   channel.push("new_message", { body: payload })
 })
 
+channel.on("connection_messages", messages => {
+  messages.map((m, i) => console.log(m, i))
+})
+
 channel.on("new_message", message => {
-  const createElement = (text) => {
-		const element = document.createElement("p")
-		const textNode = document.createTextNode(text)
-		element.appendChild(textNode)
-		messagesContainer.appendChild(element)
-  }
-  createElement(message.context)
-  console.log(message)
+  const paragraph = document.createElement("p")
+  const author = document.createElement("b")
+  const authorText = document.createTextNode(message.username)
+  author.appendChild(authorText)
+
+  paragraph.appendChild(author)
+  paragraph.appendChild(document.createTextNode(": " + message.message))
+  messagesContainer.appendChild(paragraph)
 })
 
 export default socket
