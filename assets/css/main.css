@@ -35,3 +35,9 @@ h3 {
 .send-button {
 	margin-top: 5%;
 }
+
+@media (max-width: 500px) {
+	.main {
+		width: 90%
+	}
+}

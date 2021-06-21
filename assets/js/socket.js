@@ -9,11 +9,7 @@ socket.connect()
 let channel = socket.channel("chat:lobby", {})
 channel.join()
   .receive("ok", () => {
-    // solve this!!
-    console.log("Connected client...")
-    channel.on("joined", resp => {
-      console.log(resp)
-    })
+    channel.push("started_connection")
   })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
@@ -30,25 +26,45 @@ button.addEventListener('click', () => {
   }
 
   const payload = {
-    username: userName.value,
+    author: userName.value,
     message: message.value
   }
   channel.push("new_message", { body: payload })
 })
 
-channel.on("connection_messages", messages => {
-  messages.map((m, i) => console.log(m, i))
+// new module
+function createElement(tag, value) {
+  const element = document.createElement(tag)
+
+  if (typeof value === "string") {
+    const content = document.createTextNode(value)
+    element.appendChild(content)
+    return element
+  }
+
+  element.appendChild(value)
+  return element
+}
+
+function createDefaultMessageLine(author, message) {
+  const a = createElement("b", author)
+  const p = createElement("p", a)
+  p.appendChild(document.createTextNode(": " + message))
+  return p
+}
+
+channel.on("started_connection_messages", msgs => {
+  const { history } = msgs
+  console.log(history)
+  history.forEach((m) => {
+    const line = createDefaultMessageLine(m.author, m.message)
+    messagesContainer.appendChild(line)
+  })
 })
 
-channel.on("new_message", message => {
-  const paragraph = document.createElement("p")
-  const author = document.createElement("b")
-  const authorText = document.createTextNode(message.username)
-  author.appendChild(authorText)
-
-  paragraph.appendChild(author)
-  paragraph.appendChild(document.createTextNode(": " + message.message))
-  messagesContainer.appendChild(paragraph)
+channel.on("new_message", msg => {
+  const line = createDefaultMessageLine(msg.author, msg.message)
+  messagesContainer.appendChild(line)
 })
 
 export default socket

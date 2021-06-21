@@ -13,13 +13,17 @@ defmodule Chat.ConversationAgent do
     Agent.start_link(fn -> initial_value end, name: __MODULE__)
   end
 
-  def get_all() do
+  def get_all do
     Agent.get(__MODULE__, & &1)
   end
 
   def add(author, message) do
-    Agent.update(__MODULE__, fn a ->
-      a ++ [%{author: author, message: message}]
+    Agent.update(__MODULE__, fn c ->
+      c ++ [%{author: author, message: message}]
     end)
+  end
+
+  def delete_all do
+    Agent.update(__MODULE__, fn _c -> [] end)
   end
 end

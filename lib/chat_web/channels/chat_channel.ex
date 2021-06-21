@@ -8,15 +8,16 @@ defmodule ChatWeb.ChatChannel do
   end
 
   @impl true
-  def handle_in("joined", _payload, socket) do
-    IO.inspect("Joined asssssssASDASDASDASDASDASDASDSDASDASman")
+  def handle_in("started_connection", _payload, socket) do
+    push(socket, "started_connection_messages", %{history: ConversationAgent.get_all()})
     {:noreply, socket}
   end
 
   @impl true
   def handle_in("new_message", %{"body" => payload}, socket) do
-    %{"message" => message, "username" => username} = payload
-    broadcast(socket, "new_message", %{message: message, username: username})
+    %{"message" => message, "author" => author} = payload
+    ConversationAgent.add(author, message)
+    broadcast(socket, "new_message", %{message: message, author: author})
     {:noreply, socket}
   end
 end

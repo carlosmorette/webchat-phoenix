@@ -14,8 +14,8 @@ defmodule Chat.Application do
       # Start the Endpoint (http/https)
       ChatWeb.Endpoint,
       # Start the messages storage
-      Chat.ConversationAgent
-      # or: {Chat.ConversationAgent, initial_value: []}
+      # or Chat.ConversationAgent
+      {Chat.ConversationAgent, initial_value: []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
